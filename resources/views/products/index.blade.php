@@ -11,14 +11,15 @@
             <p class="card-text">{{ Str::limit($p->description, 100) }}</p>
             <p><img src="{{ $p->photo }}" /></p>
             @if(count($p->stocks) > 0)
-            <p>Stocks:</p>
+            <p>Total stock: {{ $p->stocks->sum('quantity') }}</p>
             @endif
             <ul>
-            @foreach($p->stocks as $stock)
+                @forelse($p->stocks as $stock)
                 <li>{{ $stock->city }}: {{ $stock->quantity }}</li>
-            @endforeach
+                @empty
+                <li>Out of stock</li>
+                @endforelse
             </ul>
-            <p>Total stock: {{ $p->stocks->sum('quantity') }}</p>
             <a href="{{ route('products.show', ['product' => $p]) }}" class="btn btn-primary">View</a>
           </div>
         </div>
