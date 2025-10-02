@@ -6,9 +6,10 @@
 
         <div class="card mb-3">
             <div class="card-body">
-            <h2>{{ $productCore->name }}</h2>
+            <h2>{{ $productCore->sku }}</h2>
             <p>{{ $productCore->description }}</p>
-            <p><strong>Price:</strong> {{ $productCore->price }}</p>
+            <p><strong>Size:</strong>{{ $productCore->size }}</p>
+            <p><img src="{{ $productCore->photo }}" /></p>
 
             <!-- Real-time stocks -->
             <p><strong>Stocks (real-time):</strong></p>
