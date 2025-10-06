@@ -20,5 +20,5 @@ Route::middleware(['auth:sanctum'])->group(function () {
 // The Rest of the Endpoints
 Route::prefix('products')->name('products.')->middleware([UserMiddleware::class])->group(function () {
     Route::get('/', [ProductController::class, 'index']);
-    Route::post('{product}', [ProductController::class, 'show']);
+    Route::get('{product}', [ProductController::class, 'show']);
 });

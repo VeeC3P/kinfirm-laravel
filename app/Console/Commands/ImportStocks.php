@@ -9,12 +9,14 @@ use App\Jobs\ImportStockJob;
 class ImportStocks extends Command
 {
     protected $signature = 'import:stocks 
-                            {url=https://kinfirm.com/app/uploads/laravel-task/stocks.json}';
+                            {url=https://kinfirm.com/app/uploads/laravel-task/stocks.json}
+                            {--test : Run jobs synchronously instead of dispatching to queue}';
     protected $description = 'Import stocks from remote JSON file (queued)';
 
     public function handle(): int
     {
         $url = $this->argument('url');
+        $isTest = $this->option('test');
         $this->info("Fetching stocks from $url");
 
         $response = Http::get($url);
@@ -29,8 +31,18 @@ class ImportStocks extends Command
             return 1;
         }
 
-        foreach ($data as $row) {
-            ImportStockJob::dispatch($row);
+        // foreach ($data as $row) {
+        //     ImportStockJob::dispatch($row);
+        // }
+
+         foreach ($data as $row) {
+            if ($isTest) {
+                // Run the job immediately instead of dispatching
+                (new \App\Jobs\ImportStockJob($row))->handle();
+            } else {
+                // Dispatch to queue as usual
+                \App\Jobs\ImportStockJob::dispatch($row);
+            }
         }
 
         $this->info("Dispatched " . count($data) . " stock jobs to queue.");
