@@ -1,4 +1,4 @@
-# Quiz Application
+# Stock API Application
 
 ## Requirements for the task
 
